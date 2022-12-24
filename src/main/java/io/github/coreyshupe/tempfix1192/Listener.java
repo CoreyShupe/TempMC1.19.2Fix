@@ -2,6 +2,7 @@ package io.github.coreyshupe.tempfix1192;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.network.ProtocolVersion;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -26,6 +27,9 @@ public class Listener {
 
     @Subscribe
     public void onPostConnect(PostLoginEvent event) {
+        if (event.getPlayer().getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_19_1) < 0) {
+            return;
+        }
         try {
             var connectedPlayer = event.getPlayer();
             var connection = MC_CONN_FIELD.get(connectedPlayer);
